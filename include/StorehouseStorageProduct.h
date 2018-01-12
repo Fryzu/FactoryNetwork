@@ -6,7 +6,7 @@
 class Storage
 {
 private:
-    std::queue<Product> stor_queue;//nazwa "queue" by³a zajêta dla STD
+    std::queue<Product> stor_queue;//nazwa "queue" byÂ³a zajÃªta dla STD
 
 
 public:
