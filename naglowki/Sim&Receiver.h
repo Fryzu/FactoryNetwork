@@ -1,4 +1,4 @@
-class Simulation
+class Simulation ////
 {
 private:
     std::vector<Storehouse> storehouses;
