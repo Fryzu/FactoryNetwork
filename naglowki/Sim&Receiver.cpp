@@ -52,6 +52,7 @@ void Simulation::processWorkers(string& line)
     string queue_type=line;
 
    // cout<<"id: "<<id<<", processing-time: "<<procestime<<", queue-type: "<<queue_type<<endl;
+
     workers.push_back(new Worker());
 
 
@@ -109,7 +110,75 @@ void Simulation:: processLinks(string& line)
     int p2=stringToInt(_p2);
     float p=p1+ p2*0.1;
 
+    int a;
+    int b;
 
+
+    if(_srctype=="ramp")
+    {
+        for(auto i :loadingRamps)
+        {
+            if(loadingRamps[i].id==src)
+            {
+                a=i;
+            }
+        }
+
+        if(_desttype=="worker")
+        {
+            for(auto i :workers)
+        {
+            if(workers[i].id==dest)
+            {
+                b=i;
+            }
+        }
+
+            loadingRamps[a].connections.push_back(new Link(workers[b],p));
+
+        }
+
+    else
+    if(_srctype=="worker")
+
+    {
+        for(auto i :workers)
+        {
+            if(workers[i].id==src)
+            {
+                a=i;
+            }
+        }
+        if(_desttype=="worker")
+        {
+            for(auto i :workers)
+        {
+            if(workers[i].id==dest)
+            {
+                b=i;
+            }
+        }
+
+            workers[a].connections.push_back(new Link(workers[b],p));
+        }
+        else
+            if(_desttype=="store")
+            {
+                for(auto i :storehouses)
+        {
+            if(storehouses[i].id==dest)
+            {
+                b=i;
+            }
+        }
+
+            workers[a].connections.push_back(new Link(storehouses[b],p));
+
+            }
+
+
+
+    }
 
 //std:: cout<<"src: "<<_srctype<<"- "<<src<<"  dest: "<<_desttype<<"- "<<dest<<" probability: "<<p<<endl;
 }
@@ -129,10 +198,7 @@ void Simulation:: processLine(string& line)
     {
         processStorehouses(line);
     }
-    else if(line.find("LINK")==0)
-    {
-        processLinks(line);
-    }
+
 
 
 }
@@ -151,6 +217,16 @@ void  Simulation::interpretateFile(string &name)
 
         //cout << line << endl;
     }
+    plik.close();
+    plik.open(name, std::ios::in);
+
+    while(!plik.eof())
+    {
+        string line;
+        getline(plik, line);
+
+        processLinks(string&line);
+
 
     Simulation::Simulation(string & name)
     {
@@ -158,6 +234,13 @@ void  Simulation::interpretateFile(string &name)
     }
 
 }
+
+
+
+
+
+
+
 
 
 
