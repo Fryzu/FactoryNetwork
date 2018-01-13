@@ -25,7 +25,7 @@ void processLoadingRamp(string& line)
 
     int deliveryInterval = stringToInt(line);
 
-    cout << "id: " << id << ", delivery-interval: " << deliveryInterval << endl;
+   // cout << "id: " << id << ", delivery-interval: " << deliveryInterval << endl;
 }
 void processWorkers(string& line)
 {
@@ -45,7 +45,7 @@ void processWorkers(string& line)
 
     string queue_type=line;
 
-    cout<<"id: "<<id<<", processing-time: "<<procestime<<", queue-type: "<<queue_type<<endl;
+   // cout<<"id: "<<id<<", processing-time: "<<procestime<<", queue-type: "<<queue_type<<endl;
 
 
 
@@ -56,7 +56,7 @@ void processStorehouses(string& line)
 line.erase(0,14);
 string _id=line;
 int id=stringToInt(line);
-cout<<"id: "<<id<<endl;
+//cout<<"id: "<<id<<endl;
 
 }
 void processLinks(string& line)
@@ -103,7 +103,7 @@ void processLinks(string& line)
 
 
 
-std:: cout<<"src: "<<_srctype<<"- "<<src<<"  dest: "<<_desttype<<"- "<<dest<<" probability: "<<p<<endl;
+//std:: cout<<"src: "<<_srctype<<"- "<<src<<"  dest: "<<_desttype<<"- "<<dest<<" probability: "<<p<<endl;
 }
 
 void processLine(string& line)
@@ -129,10 +129,10 @@ void processLine(string& line)
 
 }
 
-int main()
+void interpretateFile(string name)
 {
     std::fstream plik;
-    plik.open("struct-input.txt", std::ios::in);
+    plik.open(name, std::ios::in);
 
     while(!plik.eof())
     {
@@ -143,4 +143,11 @@ int main()
 
         //cout << line << endl;
     }
+
+}
+
+int main()
+{
+    interprateFile("struct-input.txt");
+    return 0;
 }
