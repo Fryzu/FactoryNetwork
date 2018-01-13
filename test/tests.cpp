@@ -122,3 +122,16 @@ TEST(ProductSender, AddingLinkAndRescaling)
     testWorker1.addLinkRescaling(testLink4);
     EXPECT_EQ(testWorker1.showConnectionsList(), "0.2,0.3,0.5,");*/
 }
+
+TEST(ProductSender, Sending)
+{
+    Storehouse* testStorehouse = new Storehouse(0);
+    Product* testProduct1 = new Product(6);
+
+    LoadingRamp testLoadingRamp(0, 1);
+    testLoadingRamp.addLink(new Link(0.6, testStorehouse));
+    testLoadingRamp.addLink(new Link(0.4, testStorehouse));
+    testLoadingRamp.sendProduct(testProduct1);
+
+    EXPECT_EQ(testStorehouse->showProductList(), "6,");
+}

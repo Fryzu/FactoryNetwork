@@ -1,5 +1,8 @@
 #include <nodes.h>
 #include <sstream>
+#include <cstdlib>
+#include <ctime>
+#include <iostream>
 
 void Storehouse::receiveProduct(Product* _product)
 {
@@ -40,12 +43,32 @@ std::string ProductSender::showConnectionsList(void)
     return tmp.str();
 }
 
+//Piotrek ufam Ci!!!
+void ProductSender::sendProduct(Product* _product)
+{
+    srand( time( NULL ) );
+
+    double wskaznik_wyboru = std::rand()%100;
+    double kwartyl = 0;
+
+    for(auto& i : connections)
+    {
+        kwartyl = kwartyl + i->probability;
+        if (wskaznik_wyboru <= kwartyl*100)
+        {
+            i->send(_product);
+
+            return;
+        }
+    }
+}
+
 void ProductSender::addLink(Link* _link)
 {
     connections.push_back(_link);
 }
 
-//Piotrek ufam Ci!!!
+
 void ProductSender::addLinkRescaling(Link* _link)
 {
     if (_link->probability <= 1 && _link->probability >= 0)
@@ -71,7 +94,23 @@ void ProductSender::addLinkRescaling(Link* _link)
     }
 }
 
-Link::Link(double _probability, const ProductReceiver* _receiver)
+void LoadingRamp::nextRound(int _time)
+{
+    if ((_time % duration == 0) and (connections.empty() == false))
+    {
+        this->sendProduct(new Product());
+    }
+}
+
+void Worker::nextRound(int _time)
+{
+    if ((_time % duration == 0) and (connections.empty() == false))
+    {
+        
+    }
+}
+
+Link::Link(double _probability, ProductReceiver* _receiver)
 {
     probability = _probability;
     pointer = _receiver;
@@ -81,3 +120,8 @@ void Link::setProbability(double _probability)
 {
     probability = _probability;
 }   
+
+void Link::send(Product* _product)
+{
+    pointer->receiveProduct(_product);
+}
