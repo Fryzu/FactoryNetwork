@@ -1,5 +1,5 @@
 #include <iostream>
-#include <date.h>
+#include <storage&product.h>
 #include <gtest/gtest.h>
 
 int main(int argc, char* argv[])
@@ -8,95 +8,48 @@ int main(int argc, char* argv[])
     return RUN_ALL_TESTS();
 }
 
-TEST(DateTest, StartingValue)
+TEST(ProductTest, ConstructuctingAndId)
 {
-    Date testDate1;
-    Date testDate2;
+    EXPECT_EQ(Product::count, 0);
+    Product tmp3;
+    EXPECT_EQ(tmp3.id, 0);
 
-    EXPECT_EQ(0, testDate1.getUnixDays());
+    Product tmp(3);
+    EXPECT_EQ(Product::count, 4);
+
+    EXPECT_EQ(tmp.id, 3);
+    EXPECT_EQ(tmp.state, false);
+
+    Product tmp2;
+    EXPECT_EQ(tmp2.id, 4);
+    EXPECT_EQ(tmp2.state, false);
+    EXPECT_EQ(Product::count, 5);
 }
 
-//TESTY BARTKA
-
-TEST(DateTest, OperatorAssign)
+TEST(StorageTest, StorageStack)
 {
-    Date testDate1(1997, 5, 18);
-    Date testDate2 = testDate1;
+    Product* testProduct1 = new Product(1);
+    Product* testProduct2 = new Product(2);
+    Product* testProduct3 = new Product(3);
 
-    EXPECT_EQ(testDate1.getUnixDays(), testDate2.getUnixDays()); 
+    Storage* testStack = new StorageStack();
+    testStack->push(testProduct1);
+    testStack->push(testProduct2);
+    testStack->push(testProduct3);
+
+    EXPECT_EQ(testStack->showProductList(), "3,2,1,");
 }
 
-TEST(DateTest, OperatorPlus)
+TEST(StorageTest, StorageQueue)
 {
-    Date testDate1(1997, 5, 18);
+    Product* testProduct1 = new Product(1);
+    Product* testProduct2 = new Product(2);
+    Product* testProduct3 = new Product(3);
 
-    int testValue = 10;
-    int expectedResult = testValue + testDate1.getUnixDays();
-    
-    testDate1 = testValue + testDate1;
+    Storage* testQueue = new StorageQueue();
+    testQueue->push(testProduct1);
+    testQueue->push(testProduct2);
+    testQueue->push(testProduct3);
 
-    EXPECT_EQ(expectedResult, testDate1.getUnixDays()); 
+    EXPECT_EQ(testQueue->showProductList(), "1,2,3,");
 }
-
-TEST(DateTest, OperatorOutStream)
-{
-    Date testDate1(1997, 5, 18);
-    std::ostringstream os;
-    os << testDate1;
-    std::stringstream unixDays; 
-    unixDays << testDate1.getUnixDays();
-
-    EXPECT_EQ(unixDays.str(), os.str());
-}
-
-TEST(DateTest, ComputerDateFormatter)
-{
-    Date testDate1(1997, 5, 18);
-    Date testDate2(1970, 1, 1);
-    Date testDate3(2016, 12, 30);
-
-    ComputerDateFormatter formatter;
-
-    EXPECT_EQ("1997-5-18", formatter.format(testDate1));
-    EXPECT_EQ("1970-1-1", formatter.format(testDate2));
-    EXPECT_EQ("2016-12-30", formatter.format(testDate3));
-}
-
-TEST(DateTest, GermanDateFormatter)
-{
-    Date testDate1(1997, 5, 18);
-    Date testDate2(1970, 1, 1);
-    Date testDate3(2016, 12, 30);
-
-    GermanDateFormatter formatter;
-
-    EXPECT_EQ("18.05.1997", formatter.format(testDate1));
-    EXPECT_EQ("01.01.1970", formatter.format(testDate2));
-    EXPECT_EQ("30.12.2016", formatter.format(testDate3));  
-}
-//MrauMrauChan
-
-TEST(DateTest,OperatorMinus)
-{
-		EXPECT_EQ(Date(1997,6,1)-1,Date(1997,5,31));
-		EXPECT_EQ(Date(1997,1,1)-1,Date(1996,12,31));
-		EXPECT_EQ(Date(1997,12,1)-1,Date(1997,11,30));
-	
-}
-
-TEST(DateTest,Konstruktory)
-{
-	EXPECT_EQ(Date(1997,5,20),Date(1997,5,20));
-	EXPECT_EQ(Date(),Date(0));
-
-}
-
-TEST(DateTest,OperatorRozny)
-{
-	EXPECT_NE(Date(1996,6,31),Date(1997,6,31));
-	EXPECT_NE(Date(1997,6,31),Date(1997,4,31));
-	EXPECT_NE(Date(1997,6,30),Date(1997,6,31));
-	EXPECT_NE(Date(232323),Date(1997,6,31));
-
-}
-

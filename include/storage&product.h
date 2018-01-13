@@ -1,30 +1,51 @@
 #ifndef SP
 #define SP
 
-class Storage
-{
-private:
-    std::queue<Product> stor_queue;//nazwa "queue" by³a zajêta dla STD
-
-
-public:
-    void push(Product const produkt){
-        stor_queue.push(produkt);
-    }
-     void pop(){
-         stor_queue.pop();
-     }
-};
+#include <deque>
+#include <stack>
+#include <queue>
+#include <string>
 
 class Product
 {
-private:
-
+    
 public:
+    static int count;  //działa średnio i czasami, ale działa
+
     int id;
     bool state;
 
-    TYPE method(TYPE)
+    Product(int = count);
+};
+
+class Storage
+{    
+    public:
+        virtual void push(const Product*) = 0;
+        virtual const Product* pop() = 0;
+        virtual std::string showProductList() = 0;
+};
+
+class StorageStack : public Storage
+{
+    public:
+        virtual void push(const Product*) override;
+        virtual const Product* pop() override;
+        virtual std::string showProductList() override;
+
+    private:
+        std::stack<const Product*> _stack;
+};
+
+class StorageQueue : public Storage
+{
+    public:
+        virtual void push(const Product*) override;
+        virtual const Product* pop() override;
+        virtual std::string showProductList() override;
+
+    private:
+        std::queue<const Product*> _queue;
 };
 
 #endif

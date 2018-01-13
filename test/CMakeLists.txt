@@ -5,7 +5,7 @@ find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 include_directories("../include")
 
-add_executable(testy date_test.cpp)
+add_executable(testy tests.cpp)
 
 target_link_libraries(testy ${GTEST_BOTH_LIBRARIES})
-target_link_libraries(testy date)
+target_link_libraries(testy storageproduct nodes)
