@@ -20,13 +20,12 @@ void Simulation::processLoadingRamp(string& line)
     int firstSpacePos = line.find(' ');
 
     string idStr = line.substr(0, firstSpacePos);
-    int id = stringToInt(idStr);
+    int id = stringToInt(idStr); // id
 
     line.erase(0, firstSpacePos+19);
 
-    int deliveryInterval = stringToInt(line);
+    int deliveryInterval = stringToInt(line);//duration
 
-   // cout << "id: " << id << ", delivery-interval: " << deliveryInterval << endl;
 
    loadingRamps.push_back(new loadingRamp());
 
@@ -38,20 +37,20 @@ void Simulation::processWorkers(string& line)
     line.erase(0,10);
     int firstSpacePros=line.find(' ');
     string idStr=line.substr(0,firstSpacePros);
-    int id=stringToInt(idStr);
+    int id=stringToInt(idStr);//id
 
 
     line.erase(0,firstSpacePros+17);
 
     firstSpacePros=line.find(' ');
     string _procestime=line.substr(0,firstSpacePros);
-    int procestime=stringToInt(_procestime);
+    int procestime=stringToInt(_procestime);//duration
 
     line.erase(0,firstSpacePros+12);
 
-    string queue_type=line;
+    string queue_type=line;//FIFO/FILO
 
-   // cout<<"id: "<<id<<", processing-time: "<<procestime<<", queue-type: "<<queue_type<<endl;
+
 
     workers.push_back(new Worker());
 
@@ -63,7 +62,7 @@ void Simulation:: processStorehouses(string& line)
 line.erase(0,14);
 string _id=line;
 int id=stringToInt(line);
-//cout<<"id: "<<id<<endl;
+
 
 storehouses.push_back(new Storehouse());
 
@@ -72,24 +71,24 @@ void Simulation:: processLinks(string& line)
 {
     line.erase(0,9);
     int firstSpacePros=line.find('-');
-    string _srctype=line.substr(0,firstSpacePros);
+    string _srctype=line.substr(0,firstSpacePros);//Typ w³aœciciela
     line.erase(0,firstSpacePros+1);
 
     firstSpacePros=line.find(' ');
     string _src=line.substr(0,firstSpacePros);
-    int src=stringToInt(_src);
+    int src=stringToInt(_src);//id w³aœciciela
 
 
 
     line.erase(0,firstSpacePros+6);
 
     firstSpacePros=line.find('-');
-    string _desttype=line.substr(0,firstSpacePros);
+    string _desttype=line.substr(0,firstSpacePros);//Typ odbiorcy
 
     line.erase(0,firstSpacePros+1);
     firstSpacePros=line.find(' ');
     string _dest=line.substr(0,firstSpacePros);
-    int dest=stringToInt(_dest);
+    int dest=stringToInt(_dest); // id odbiorcy
 
 
     line.erase(0,firstSpacePros+3);
@@ -108,7 +107,7 @@ void Simulation:: processLinks(string& line)
 
     string _p2=line;
     int p2=stringToInt(_p2);
-    float p=p1+ p2*0.1;
+    float p=p1+ p2*0.1; //probability
 
     int a;
     int b;
@@ -180,16 +179,16 @@ void Simulation:: processLinks(string& line)
 
     }
 
-//std:: cout<<"src: "<<_srctype<<"- "<<src<<"  dest: "<<_desttype<<"- "<<dest<<" probability: "<<p<<endl;
+
 }
-//
+
 
 void Simulation:: processLine(string& line)
 {
     if(line.find("LOADING_RAMP") == 0)
     {
         processLoadingRamp(line);
-        //cout << "loading ramp" << endl;
+
     }
     else if(line.find("WORKER") == 0)
     {
@@ -214,9 +213,10 @@ void  Simulation::interpretateFile(string &name)
         string line;
         getline(plik, line);
 
-        processLine(line);
+        processLine(line); // Pierwsze przejœcie po pliku, dodajemy Nody
 
-        //cout << line << endl;
+
+
     }
     plik.close();
     plik.open(name, std::ios::in);
@@ -225,8 +225,7 @@ void  Simulation::interpretateFile(string &name)
     {
         string line;
         getline(plik, line);
-
-        processLinks(string&line);
+        processLinks(string&line); //Drugie przejœcie po pliku, dodajemy linki
 
 
     Simulation::Simulation(string & name)
