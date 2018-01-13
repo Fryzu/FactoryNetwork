@@ -172,7 +172,7 @@ void Simulation:: processLinks(string& line)
             }
         }
 
-            workers[a].connections.push_back(new Link(storehouses[b],p));
+            workers[a].connections.push_back(new Link(p,storehouses[b]));
 
             }
 
