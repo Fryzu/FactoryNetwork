@@ -8,4 +8,4 @@ include_directories("../include")
 add_executable(testy tests.cpp)
 
 target_link_libraries(testy ${GTEST_BOTH_LIBRARIES})
-target_link_libraries(testy storageproduct nodes)
+target_link_libraries(testy storageproduct nodes link)

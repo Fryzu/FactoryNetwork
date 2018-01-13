@@ -1,21 +1,43 @@
 #ifndef ND
 #define ND
 
-class ProductSender
+#include <vector>
+#include <string>
+#include <storage&product.h>
+
+class ProductReceiver
 {
+    public:
+        virtual void receiveProduct(Product*) = 0;
+        //virtual ~ProductReceiver() = default;
 
-private:
-    int duration;
-    std::vector<Link> connections;
-
-public:
-    void sendProduct(Product &,*Link);
-    void addLink(Link);
-    virtual void nextRound(void)=0;
-    virtual string getRaport(void)=0;
 };
 
-/*class ProductReceiver
+class Storehouse : public ProductReceiver
+{
+    private:
+        //std::vector<Product*> ListOfProducts;
+    public:
+        //int id;
+        virtual void receiveProduct(Product*) override;
+
+        //string getRaport(void){};
+};
+
+/*class ProductSender
+{
+private:
+    int duration;
+    //std::vector<Link> connections;
+
+public:
+    void sendProduct(Product*);
+    void addLink(Link);
+    virtual void nextRound(void) = 0;
+    virtual std::string getRaport(void) = 0;
+};
+
+class ProductReceiver
 {
 public:
    virtual receiveProduct(Product)=0;
@@ -55,18 +77,6 @@ private:
 
 };
 
-class Storehouse:public ProductReceiver
-{
-private:
-    std::vector<Product> ListOfProducts;
-public:
-    int id;
-
-    virtual //(void)? receiveProduct(Product) override{};
-
-    string getRaport(void){};
-
-
-};*/
+*/
 
 #endif

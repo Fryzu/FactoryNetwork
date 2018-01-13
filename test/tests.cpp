@@ -1,5 +1,7 @@
 #include <iostream>
 #include <storage&product.h>
+#include <nodes.h>
+#include <link.h>
 #include <gtest/gtest.h>
 
 int main(int argc, char* argv[])
@@ -8,7 +10,7 @@ int main(int argc, char* argv[])
     return RUN_ALL_TESTS();
 }
 
-TEST(ProductTest, ConstructuctingAndId)
+TEST(Product, ConstructuctingAndId)
 {
     EXPECT_EQ(Product::count, 0);
     Product tmp3;
@@ -26,7 +28,7 @@ TEST(ProductTest, ConstructuctingAndId)
     EXPECT_EQ(Product::count, 5);
 }
 
-TEST(StorageTest, StorageStack)
+TEST(Storage, StorageStack)
 {
     Product* testProduct1 = new Product(1);
     Product* testProduct2 = new Product(2);
@@ -40,7 +42,7 @@ TEST(StorageTest, StorageStack)
     EXPECT_EQ(testStack->showProductList(), "3,2,1,");
 }
 
-TEST(StorageTest, StorageQueue)
+TEST(Storage, StorageQueue)
 {
     Product* testProduct1 = new Product(1);
     Product* testProduct2 = new Product(2);
@@ -52,4 +54,16 @@ TEST(StorageTest, StorageQueue)
     testQueue->push(testProduct3);
 
     EXPECT_EQ(testQueue->showProductList(), "1,2,3,");
+}
+
+TEST(Link, ConstructingAndSettingProbability)
+{
+    ProductReceiver *testReceiver = new Storehouse();
+    Link testLink(0.6, testReceiver);
+
+    EXPECT_EQ(testLink.probability, 0.6);
+
+    testLink.setProbability(0.2);
+
+    EXPECT_EQ(testLink.probability, 0.2);
 }
