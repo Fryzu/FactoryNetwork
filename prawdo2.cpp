@@ -23,10 +23,10 @@ public:
     double probability;
     Worker* pointer;
 
-    Link(double p,Worker &worker)
+    Link(double p,Worker *worker)
     {
         probability=p;
-        pointer=&worker;
+        pointer=&worker;//ProductReceiver
 
     };
 
