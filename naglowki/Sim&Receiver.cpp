@@ -182,6 +182,7 @@ void Simulation:: processLinks(string& line)
 
 //std:: cout<<"src: "<<_srctype<<"- "<<src<<"  dest: "<<_desttype<<"- "<<dest<<" probability: "<<p<<endl;
 }
+//
 
 void Simulation:: processLine(string& line)
 {
