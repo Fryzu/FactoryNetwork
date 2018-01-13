@@ -10,12 +10,12 @@ Product::Product(int _id)
     state = false;
 }
 
-void StorageStack::push(const Product* produkt)
+void StorageStack::push(Product* produkt)
 {
     _stack.push(produkt);
 }
 
-const Product* StorageStack::pop()
+Product* StorageStack::pop()
 {
     auto tmp = _stack.top();
     _stack.pop();
@@ -27,7 +27,7 @@ std::string StorageStack::showProductList()
 {
     std::stringstream tmp;
 
-    std::stack<const Product*> tmpStack = _stack;
+    std::stack<Product*> tmpStack = _stack;
 
     while(tmpStack.empty() == false)
     {
@@ -42,7 +42,7 @@ std::string StorageQueue::showProductList()
 {
     std::stringstream tmp;
 
-    std::queue<const Product*> tmpQueue = _queue;
+    std::queue<Product*> tmpQueue = _queue;
 
     while(tmpQueue.empty() == false)
     {
@@ -53,12 +53,12 @@ std::string StorageQueue::showProductList()
     return tmp.str();
 }
 
-void StorageQueue::push(const Product* produkt)
+void StorageQueue::push(Product* produkt)
 {
     _queue.push(produkt);
 }
 
-const Product* StorageQueue::pop()
+Product* StorageQueue::pop()
 {
     auto tmp = _queue.front();
     _queue.pop();

@@ -49,7 +49,10 @@ class ProductSender
         void addLink(Link*);
         std::string showConnectionsList(void);
         void sendProduct(Product*);
-        virtual void nextRound(int) = 0;  
+        virtual void nextRound(int) = 0; 
+
+        int getDuration() {return duration;};
+        bool isEmpty() {return connections.empty();}; 
 };
 
 class Worker : public ProductReceiver, public ProductSender
@@ -65,7 +68,7 @@ class Worker : public ProductReceiver, public ProductSender
         virtual std::string showProductList(void) override;
 
         //sender
-        void nextRound(int) override;
+        virtual void nextRound(int) override;
 
     private:
         Storage* storage;
@@ -78,7 +81,7 @@ class LoadingRamp : public ProductSender
 
         LoadingRamp(int _id, int _duration) : 
         id(_id), ProductSender(_duration) {};
-        void nextRound(int) override;
+        virtual void nextRound(int) override;
 
 };
 

@@ -135,3 +135,21 @@ TEST(ProductSender, Sending)
 
     EXPECT_EQ(testStorehouse->showProductList(), "6,");
 }
+
+TEST(LoadingRamp, nextRound)
+{
+    Product zero(0); //zeruje licznik
+    Storehouse* testStorehouse = new Storehouse(0);
+
+    LoadingRamp testLoadingRamp(0, 2);
+    testLoadingRamp.addLink(new Link(1, testStorehouse));
+
+    //Iterujemy po turach
+    EXPECT_EQ(testStorehouse->showProductList(), ""); //pusty
+    testLoadingRamp.nextRound(0);
+    EXPECT_EQ(testStorehouse->showProductList(), "1,");
+    testLoadingRamp.nextRound(1);
+    EXPECT_EQ(testStorehouse->showProductList(), "1,");
+    testLoadingRamp.nextRound(2);
+    EXPECT_EQ(testStorehouse->showProductList(), "1,2,");
+}

@@ -96,7 +96,10 @@ void ProductSender::addLinkRescaling(Link* _link)
 
 void LoadingRamp::nextRound(int _time)
 {
-    if ((_time % duration == 0) and (connections.empty() == false))
+    int _duration = this->getDuration();
+    bool _isEmpty = this->isEmpty();
+
+    if ((_time % _duration == 0) and (_isEmpty == false))
     {
         this->sendProduct(new Product());
     }
@@ -104,9 +107,14 @@ void LoadingRamp::nextRound(int _time)
 
 void Worker::nextRound(int _time)
 {
-    if ((_time % duration == 0) and (connections.empty() == false))
+    int _duration = this->getDuration();
+    bool _isEmpty = this->isEmpty();
+    bool _isEmptyStorage = storage->isEmpty();
+
+    if ((_time % _duration == 0) and (_isEmpty == false) and (_isEmptyStorage == false))
     {
-        
+        Product* toSend = storage->pop();
+        this->sendProduct(toSend);
     }
 }
 

@@ -21,31 +21,36 @@ public:
 class Storage
 {    
     public:
-        virtual void push(const Product*) = 0;
-        virtual const Product* pop() = 0;
+        virtual void push(Product*) = 0;
+        virtual Product* pop() = 0;
         virtual std::string showProductList() = 0;
+        virtual bool isEmpty() = 0;
 };
 
 class StorageStack : public Storage
 {
     public:
-        virtual void push(const Product*) override;
-        virtual const Product* pop() override;
+        virtual void push(Product*) override;
+        virtual Product* pop() override;
         virtual std::string showProductList() override;
 
+        virtual bool isEmpty() override {return _stack.empty();};
+
     private:
-        std::stack<const Product*> _stack;
+        std::stack<Product*> _stack;
 };
 
 class StorageQueue : public Storage
 {
     public:
-        virtual void push(const Product*) override;
-        virtual const Product* pop() override;
+        virtual void push(Product*) override;
+        virtual Product* pop() override;
         virtual std::string showProductList() override;
 
+        virtual bool isEmpty() override {return _queue.empty();};
+
     private:
-        std::queue<const Product*> _queue;
+        std::queue<Product*> _queue;
 };
 
 #endif
