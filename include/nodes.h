@@ -9,74 +9,80 @@ class ProductReceiver
 {
     public:
         virtual void receiveProduct(Product*) = 0;
-        //virtual ~ProductReceiver() = default;
+        virtual std::string showProductList(void) = 0;
+
+};
+
+class Link
+{
+    public:
+        Link(double, ProductReceiver*);
+        void setProbability(double);
+        double probability;
+        void send(Product*);
+
+    private:
+        ProductReceiver* pointer;
 
 };
 
 class Storehouse : public ProductReceiver
 {
     private:
-        //std::vector<Product*> ListOfProducts;
+        std::vector<Product*> ListOfProducts;
     public:
-        //int id;
+        Storehouse(int _id) : id(_id) {};
+        int id;
         virtual void receiveProduct(Product*) override;
-
-        //string getRaport(void){};
+        virtual std::string showProductList(void) override;
 };
 
-/*class ProductSender
+class ProductSender
 {
-private:
-    int duration;
-    //std::vector<Link> connections;
+    private:
+        int duration;
+        std::vector<Link*> connections;
 
-public:
-    void sendProduct(Product*);
-    void addLink(Link);
-    virtual void nextRound(void) = 0;
-    virtual std::string getRaport(void) = 0;
+    public:
+        ProductSender(int _duration) : duration(_duration) {};
+        void addLinkRescaling(Link*);
+        void addLink(Link*);
+        std::string showConnectionsList(void);
+        void sendProduct(Product*);
+        virtual void nextRound(int) = 0; 
+
+        int getDuration() {return duration;};
+        bool isEmpty() {return connections.empty();}; 
 };
 
-class ProductReceiver
+class Worker : public ProductReceiver, public ProductSender
 {
-public:
-   virtual receiveProduct(Product)=0;
-   virtual ~ProductReceiver()=default;
+    public:
+        int id;
 
+        Worker(int _id, int _duration, Storage* _storage) : 
+        id(_id), ProductSender(_duration), storage(_storage) {};
+
+        //receiver
+        virtual void receiveProduct(Product*) override;
+        virtual std::string showProductList(void) override;
+
+        //sender
+        virtual void nextRound(int) override;
+
+    private:
+        Storage* storage;
 };
 
-class LoadingRamp
+class LoadingRamp : public ProductSender
 {
-public:
-    int id;
+    public:
+        int id;
 
-    void nextRound() override;
-    string getRaport() override;
-private:
-
-
-};
-
-class Worker
-{
-public:
-    int id;
-
-    Worker(Storage*)  //??????//
-    void  receiveProduct(Product) override;
-    void nextRound(void) override;
-    string getRaport(void) override;
-
-
-
-private:
-    Storage* storage;
-
-
-
+        LoadingRamp(int _id, int _duration) : 
+        id(_id), ProductSender(_duration) {};
+        virtual void nextRound(int) override;
 
 };
-
-*/
 
 #endif

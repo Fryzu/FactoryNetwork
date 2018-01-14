@@ -1,4 +1,4 @@
-set(CMAKE_CXX_FLAGS "-Wall -std=c++11 -pthread")
+set(CMAKE_CXX_FLAGS "-std=c++11 -pthread")
 
 find_package(GTest REQUIRED)
 
@@ -8,4 +8,4 @@ include_directories("../include")
 add_executable(testy tests.cpp)
 
 target_link_libraries(testy ${GTEST_BOTH_LIBRARIES})
-target_link_libraries(testy storageproduct nodes link)
+target_link_libraries(testy storageproduct nodes)

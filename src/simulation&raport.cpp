@@ -1,8 +1,13 @@
-#include "Sim&Receiver.h";
 #include <iostream>
 #include <fstream>
 #include <sstream>
+
+#include <simulation&raport.h>
+
 using namespace std;
+
+/*BÄ˜DZIEMY POWOLI DOÅÄ„CZAÄ† RÃ“Å»NE FUNKCJONALNOÅšCI, 
+  ALE NAJPIERW RAPORTOWANIE PONIEWAÅ» BÄ˜DZIE POTRZEBNE DO TESTÃ“W
 
 int Simulation:: stringToInt(const string& str)
 {
@@ -71,12 +76,12 @@ void Simulation:: processLinks(string& line)
 {
     line.erase(0,9);
     int firstSpacePros=line.find('-');
-    string _srctype=line.substr(0,firstSpacePros);//Typ w³aœciciela
+    string _srctype=line.substr(0,firstSpacePros);//Typ wï¿½aï¿½ciciela
     line.erase(0,firstSpacePros+1);
 
     firstSpacePros=line.find(' ');
     string _src=line.substr(0,firstSpacePros);
-    int src=stringToInt(_src);//id w³aœciciela
+    int src=stringToInt(_src);//id wï¿½aï¿½ciciela
 
 
 
@@ -213,7 +218,7 @@ void  Simulation::interpretateFile(string &name)
         string line;
         getline(plik, line);
 
-        processLine(line); // Pierwsze przejœcie po pliku, dodajemy Nody
+        processLine(line); // Pierwsze przejï¿½cie po pliku, dodajemy Nody
 
 
 
@@ -225,7 +230,7 @@ void  Simulation::interpretateFile(string &name)
     {
         string line;
         getline(plik, line);
-        processLinks(string&line); //Drugie przejœcie po pliku, dodajemy linki
+        processLinks(string&line); //Drugie przejï¿½cie po pliku, dodajemy linki
 
 
     Simulation::Simulation(string & name)
@@ -233,14 +238,4 @@ void  Simulation::interpretateFile(string &name)
         interpretateFile(name);
     }
 
-}
-
-
-
-
-
-
-
-
-
-
+}*/

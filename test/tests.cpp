@@ -1,7 +1,6 @@
 #include <iostream>
 #include <storage&product.h>
 #include <nodes.h>
-#include <link.h>
 #include <gtest/gtest.h>
 
 int main(int argc, char* argv[])
@@ -58,7 +57,7 @@ TEST(Storage, StorageQueue)
 
 TEST(Link, ConstructingAndSettingProbability)
 {
-    ProductReceiver *testReceiver = new Storehouse();
+    ProductReceiver *testReceiver = new Storehouse(0);
     Link testLink(0.6, testReceiver);
 
     EXPECT_EQ(testLink.probability, 0.6);
@@ -66,4 +65,109 @@ TEST(Link, ConstructingAndSettingProbability)
     testLink.setProbability(0.2);
 
     EXPECT_EQ(testLink.probability, 0.2);
+}
+
+TEST(Storehouse, ReceivingProduct)
+{
+    Storehouse testReceiver(0);
+    Product* testProduct1 = new Product(1);
+    Product* testProduct2 = new Product(2);
+
+    testReceiver.receiveProduct(testProduct1);
+    testReceiver.receiveProduct(testProduct2);
+
+    EXPECT_EQ(testReceiver.showProductList(), "1,2,");
+}
+
+TEST(Worker, ReceivingProduct)
+{
+    Storage* testQueue = new StorageQueue();
+    Storage* testStack = new StorageStack();
+
+    Worker testWorker1(0, 1, testQueue);
+    Worker testWorker2(0, 1, testStack);
+
+    Product* testProduct1 = new Product(1);
+    Product* testProduct2 = new Product(2);
+    Product* testProduct3 = new Product(3);
+
+    testWorker1.receiveProduct(testProduct1);
+    testWorker1.receiveProduct(testProduct2); 
+    testWorker1.receiveProduct(testProduct3);
+
+    testWorker2.receiveProduct(testProduct1);
+    testWorker2.receiveProduct(testProduct2); 
+    testWorker2.receiveProduct(testProduct3);
+
+    EXPECT_EQ(testWorker1.showProductList(), "1,2,3,");
+    EXPECT_EQ(testWorker2.showProductList(), "3,2,1,");        
+}
+
+TEST(ProductSender, AddingLinkAndRescaling)
+{
+    Link* testLink1 = new Link(0.2, NULL);
+    Link* testLink2 = new Link(0.3, NULL);
+    Link* testLink3 = new Link(0.5, NULL);
+    Link* testLink4 = new Link(0.5, NULL);
+
+    Worker testWorker1(0, 1, NULL);
+
+    testWorker1.addLink(testLink1);
+    testWorker1.addLink(testLink2);
+    testWorker1.addLink(testLink3);
+
+    EXPECT_EQ(testWorker1.showConnectionsList(), "0.2,0.3,0.5,");
+
+    /*rescaling do poprawy
+    testWorker1.addLinkRescaling(testLink4);
+    EXPECT_EQ(testWorker1.showConnectionsList(), "0.2,0.3,0.5,");*/
+}
+
+TEST(ProductSender, Sending)
+{
+    Storehouse* testStorehouse = new Storehouse(0);
+    Product* testProduct1 = new Product(6);
+
+    LoadingRamp testLoadingRamp(0, 1);
+    testLoadingRamp.addLink(new Link(0.6, testStorehouse));
+    testLoadingRamp.addLink(new Link(0.4, testStorehouse));
+    testLoadingRamp.sendProduct(testProduct1);
+
+    EXPECT_EQ(testStorehouse->showProductList(), "6,");
+}
+
+TEST(LoadingRamp, nextRound)
+{
+    Product zero(0); //zeruje licznik
+    Storehouse* testStorehouse = new Storehouse(0);
+
+    LoadingRamp testLoadingRamp(0, 2);
+    testLoadingRamp.addLink(new Link(1, testStorehouse));
+
+    //Iterujemy po turach
+    EXPECT_EQ(testStorehouse->showProductList(), ""); //pusty
+    testLoadingRamp.nextRound(0);
+    EXPECT_EQ(testStorehouse->showProductList(), "1,");
+    testLoadingRamp.nextRound(1);
+    EXPECT_EQ(testStorehouse->showProductList(), "1,");
+    testLoadingRamp.nextRound(2);
+    EXPECT_EQ(testStorehouse->showProductList(), "1,2,");
+}
+
+TEST(Worker, nextRound)
+{
+    Storehouse* testStorehouse = new Storehouse(0);
+
+    StorageStack* testStorage = new StorageStack();
+    Worker testWorker(0, 2, testStorage);
+    testWorker.addLink(new Link(1, testStorehouse));
+
+    testStorage->push(new Product(16));
+
+    //Iterujemy po turach
+    EXPECT_EQ(testStorehouse->showProductList(), ""); //pusty
+    testWorker.nextRound(0);
+    EXPECT_EQ(testStorehouse->showProductList(), "16,");
+    testWorker.nextRound(2);
+    EXPECT_EQ(testStorehouse->showProductList(), "16,");
 }
