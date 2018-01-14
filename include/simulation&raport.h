@@ -1,4 +1,6 @@
-class Simulation ////
+
+
+/*class Simulation ////
 {
     private:
         std::vector<Storehouse&> storehouses;
@@ -17,4 +19,4 @@ class Simulation ////
         void simulate(std::string);
         string generateRaport(std::string);
         Simulation(string &);    //Konstruktor!!!!//
-};
+};*/

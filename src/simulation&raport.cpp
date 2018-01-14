@@ -2,9 +2,12 @@
 #include <fstream>
 #include <sstream>
 
-#include <simulation.h>;
+#include <simulation&raport.h>
 
 using namespace std;
+
+/*BĘDZIEMY POWOLI DOŁĄCZAĆ RÓŻNE FUNKCJONALNOŚCI, 
+  ALE NAJPIERW RAPORTOWANIE PONIEWAŻ BĘDZIE POTRZEBNE DO TESTÓW
 
 int Simulation:: stringToInt(const string& str)
 {
@@ -235,14 +238,4 @@ void  Simulation::interpretateFile(string &name)
         interpretateFile(name);
     }
 
-}
-
-
-
-
-
-
-
-
-
-
+}*/
