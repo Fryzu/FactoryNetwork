@@ -81,6 +81,7 @@ void ProductSender::addLinkRescaling(Link* _link)
         {
             i->probability = (1 - _link->probability) * i->probability;
         }
+
         connections.push_back(_link);
     }
 
