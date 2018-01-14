@@ -66,20 +66,24 @@ void ProductSender::sendProduct(Product* _product)
 void ProductSender::addLink(Link* _link)
 {
     connections.push_back(_link);
+
 }
 
 
 void ProductSender::addLinkRescaling(Link* _link)
 {
     if (_link->probability <= 1 && _link->probability >= 0)
+
     {
-        connections.push_back(_link);
+
 
         for (auto& i : connections)
         {
             i->probability = (1 - _link->probability) * i->probability;
         }
+        connections.push_back(_link);
     }
+
     else
     {
         double rozmiar = connections.size() + 1; //nowy pracownik jeszcze nie zostal dodany a nowe prawdopodobienstwo powinno byc ilorazem 1/wszyscy_pracownicy
@@ -92,6 +96,7 @@ void ProductSender::addLinkRescaling(Link* _link)
             i->probability = (1 - _link->probability) * i->probability;
         }
     }
+
 }
 
 void LoadingRamp::nextRound(int _time)
@@ -127,7 +132,7 @@ Link::Link(double _probability, ProductReceiver* _receiver)
 void Link::setProbability(double _probability)
 {
     probability = _probability;
-}   
+}
 
 void Link::send(Product* _product)
 {
