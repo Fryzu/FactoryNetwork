@@ -36,11 +36,11 @@ class Simulation
 class Raport 
 {
     private:
-        //raportType type;
+        raportType type;
     
     public:
-        //std::string content;
-        //Raport(const Simulation*, raportType);
+        std::string content;
+        Raport(const Simulation*, raportType);
 
         std::string createStructRaport(const Simulation*);
 

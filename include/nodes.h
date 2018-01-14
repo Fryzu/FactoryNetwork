@@ -72,6 +72,7 @@ class Worker : public ProductReceiver, public ProductSender
 
         Worker(int _id, int _duration, Storage* _storage) : 
         id(_id), ProductSender(_duration), storage(_storage) {type = worker;};
+        std::string getStorageType();
 
         //receiver
         virtual void receiveProduct(Product*) override;

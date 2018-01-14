@@ -131,6 +131,13 @@ void Worker::nextRound(int _time)
     }
 }
 
+std::string Worker::getStorageType()
+{
+    auto _type = storage->getType();
+    if (_type == stack) return "Queue type: LIFO";
+    if (_type == queue) return "Queue type: FIFO";
+}
+
 Link::Link(double _probability, ProductReceiver* _receiver)
 {
     probability = _probability;

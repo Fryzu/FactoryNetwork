@@ -182,12 +182,17 @@ TEST(Raport, createStructRaport)
     auto testStorehouse = new Storehouse(1);
     testSimulation->addStorehouse(testStorehouse);
 
-    auto testLoadingRamp = new LoadingRamp(1, 2);
-    testLoadingRamp->addLink(new Link(1, testStorehouse));
-    testSimulation->addLoadingRamp(testLoadingRamp);
+    auto testLoadingRamp1 = new LoadingRamp(1, 2);
+    auto testLoadingRamp2 = new LoadingRamp(2, 3);
+    testLoadingRamp1->addLink(new Link(0.3, testStorehouse));
+    testLoadingRamp1->addLink(new Link(0.7, testStorehouse));
+    testLoadingRamp2->addLink(new Link(1, testStorehouse));
+    testSimulation->addLoadingRamp(testLoadingRamp1);
+    testSimulation->addLoadingRamp(testLoadingRamp2);
 
     testSimulation->addWorker(new Worker(1, 1, new StorageQueue()));
 
-    Raport testRaport;
-    std::cout << testRaport.createStructRaport(testSimulation);
+    Raport testRaport(testSimulation, structure);
+    std::string ans = "==========================\n=====STRUCTURE=RAPORT=====\n==========================\n== LOADING RAMPS ==\n\nLOADING RAMP #1\nDelivery interval: 2\nReceivers: \n- storehouse #1 (p = 0.3)\n- storehouse #1 (p = 0.7)\n\nLOADING RAMP #2\nDelivery interval: 3\nReceivers: \n- storehouse #1 (p = 1)\n\n== WORKERS ==\n\nWORKER #1\nProcessing time: 1\nQueue type: FIFO\nReceivers: \nnone\n== STOREHOUSES ==\n\nSTOREHOUSE #1\n";
+    EXPECT_EQ(testRaport.content, ans);
 }

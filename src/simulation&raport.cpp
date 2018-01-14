@@ -21,6 +21,28 @@ void Simulation::addWorker(Worker* toAdd)
     workers.push_back(toAdd);
 }
 
+Raport::Raport(const Simulation* _simulation, raportType _raportType)
+{
+    if (_raportType == structure)
+    {
+        type = _raportType;
+        stringstream ss;
+
+        ss << "==========================" << std::endl;
+        ss << "=====STRUCTURE=RAPORT=====" << std::endl;
+        ss << "==========================" << std::endl;
+
+        ss << createStructRaport(_simulation);
+
+        content = ss.str();
+    }
+
+    if (_raportType == simulation)
+    {
+
+    }
+}
+
 std::string Raport::createStructRaport(const Simulation* _simulation)
 {
     //ofstream plik;
@@ -32,22 +54,49 @@ std::string Raport::createStructRaport(const Simulation* _simulation)
     {
         ss << "LOADING RAMP #" << i->id << std::endl;
         ss << "Delivery interval: " << i->getDuration() << std::endl;
+
+        //receivers
         ss << "Receivers: \n";
-        ss << i->showConnectionsList();
+        std::string _receivers = i->showConnectionsList();
+        if (_receivers == "")
+        {
+            ss << "none";
+        }
+        else
+        {
+            ss << _receivers;
+        }
         ss << "\n";
     }
 
     ss << "== WORKERS ==" << "\n\n";
-    /*for (i : workers)
+    for (auto i : _simulation->workers)
     {
-        ss << i.getStructRaport() << '\n'
-    }*/
+        ss << "WORKER #" << i->id << std::endl;
+        ss << "Processing time: " << i->getDuration() << std::endl;
+        
+        //storage type
+        ss << i->getStorageType() << std::endl;
+
+        //receivers
+        ss << "Receivers: \n";
+        std::string _receivers = i->showConnectionsList();
+        if (_receivers == "")
+        {
+            ss << "none";
+        }
+        else
+        {
+            ss << _receivers;
+        }
+        ss << "\n";
+    }
 
     ss << "== STOREHOUSES ==" << "\n\n";
-    /*for (i : storehouses)
+    for (auto i : _simulation->storehouses)
     {
-        ss << i.getStructRaport() << '\n'
-    }*/
+        ss << "STOREHOUSE #" << i->id << std::endl;
+    }
     //plik<<ss;
     //plik.close();
 
@@ -74,62 +123,7 @@ void Simulation::getSimRaport
 plik<<ss;
 plik.close();
 }
-
-
- string Worker::getSimRaport()
- {
-     stringstream ss;
-     ss<<"WORKER#"<<id<<'\n';
-
-     if (queue.type()=="FIFO") //Jaki jest typ magazynu
-
-     {
-
-     }
-     else
-        if (queue.type()=="LIFO")
-     {
-
-     }
-
-
-    return ss.str();
- }
 */
-
-/*
- string Storehouse::getSimRaport
- {
-     stringstream ss;
-     ss<<"STOREHOUSE#"<<id<<'\n';
-
-     return ss.str();
- }
-
-string Storehouse::getStructRaport
-{
-
-}
-
-string Worker::getStructRaport
-{
-
-}
-
-string loadingRamp::getStructRaport
-{
-
-}
-
-
-string Link::getStruct Raport
-{
-
-}*/
-
-
-
-
 
 /*BĘDZIEMY POWOLI DOŁĄCZAĆ RÓŻNE FUNKCJONALNOŚCI, 
   ALE NAJPIERW RAPORTOWANIE PONIEWAŻ BĘDZIE POTRZEBNE DO TESTÓW
