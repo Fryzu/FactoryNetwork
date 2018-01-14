@@ -2,6 +2,7 @@
 #include <storage&product.h>
 #include <nodes.h>
 #include <gtest/gtest.h>
+#include <simulation&raport.h>
 
 int main(int argc, char* argv[])
 {
@@ -105,10 +106,12 @@ TEST(Worker, ReceivingProduct)
 
 TEST(ProductSender, AddingLinkAndRescaling)
 {
-    Link* testLink1 = new Link(0.2, NULL);
-    Link* testLink2 = new Link(0.3, NULL);
-    Link* testLink3 = new Link(0.5, NULL);
-    Link* testLink4 = new Link(0.5, NULL);
+    auto testStorehouse = new Storehouse(1);
+
+    Link* testLink1 = new Link(0.2, testStorehouse);
+    Link* testLink2 = new Link(0.3, testStorehouse);
+    Link* testLink3 = new Link(0.5, testStorehouse);
+    Link* testLink4 = new Link(0.5, testStorehouse);
 
     Worker testWorker1(0, 1, NULL);
 
@@ -116,11 +119,10 @@ TEST(ProductSender, AddingLinkAndRescaling)
     testWorker1.addLink(testLink2);
     testWorker1.addLink(testLink3);
 
-    EXPECT_EQ(testWorker1.showConnectionsList(), "0.2,0.3,0.5,");
+    EXPECT_EQ(testWorker1.showConnectionsList(), "- storehouse #1 (p = 0.2)\n- storehouse #1 (p = 0.3)\n- storehouse #1 (p = 0.5)\n");
 
-    /*rescaling do poprawy
     testWorker1.addLinkRescaling(testLink4);
-    EXPECT_EQ(testWorker1.showConnectionsList(), "0.2,0.3,0.5,");*/
+    EXPECT_EQ(testWorker1.showConnectionsList(), "- storehouse #1 (p = 0.1)\n- storehouse #1 (p = 0.15)\n- storehouse #1 (p = 0.25)\n- storehouse #1 (p = 0.5)\n");
 }
 
 TEST(ProductSender, Sending)
@@ -170,4 +172,22 @@ TEST(Worker, nextRound)
     EXPECT_EQ(testStorehouse->showProductList(), "16,");
     testWorker.nextRound(2);
     EXPECT_EQ(testStorehouse->showProductList(), "16,");
+}
+
+TEST(Raport, createStructRaport)
+{
+    //Przygotowanie symulacji testowej
+    Simulation* testSimulation = new Simulation;
+
+    auto testStorehouse = new Storehouse(1);
+    testSimulation->addStorehouse(testStorehouse);
+
+    auto testLoadingRamp = new LoadingRamp(1, 2);
+    testLoadingRamp->addLink(new Link(1, testStorehouse));
+    testSimulation->addLoadingRamp(testLoadingRamp);
+
+    testSimulation->addWorker(new Worker(1, 1, new StorageQueue()));
+
+    Raport testRaport;
+    std::cout << testRaport.createStructRaport(testSimulation);
 }

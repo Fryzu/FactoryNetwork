@@ -36,8 +36,15 @@ std::string ProductSender::showConnectionsList(void)
     std::stringstream tmp;
 
     for (auto i : connections)
-    {
-        tmp << i->probability << ",";
+    {   
+        //typ node'a
+        nodeType _type = i->pointer->type;
+        if (_type == worker) tmp << "- worker";
+        if (_type == storehouse) tmp << "- storehouse";
+        if (_type == loadingRamp) tmp << "- loading ramp";
+        
+        tmp << " #" << i->pointer->getId() << " ";
+        tmp << "(p = " << i->probability << ")" << std::endl;
     }
 
     return tmp.str();

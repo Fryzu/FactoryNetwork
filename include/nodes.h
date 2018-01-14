@@ -5,12 +5,21 @@
 #include <string>
 #include <storage&product.h>
 
+enum nodeType 
+{
+    storehouse,
+    loadingRamp,
+    worker
+};
+
 class ProductReceiver
 {
     public:
+        nodeType type;
+
         virtual void receiveProduct(Product*) = 0;
         virtual std::string showProductList(void) = 0;
-
+        virtual int getId() = 0;
 };
 
 class Link
@@ -20,8 +29,6 @@ class Link
         void setProbability(double);
         double probability;
         void send(Product*);
-
-    private:
         ProductReceiver* pointer;
 
 };
@@ -31,10 +38,13 @@ class Storehouse : public ProductReceiver
     private:
         std::vector<Product*> ListOfProducts;
     public:
-        Storehouse(int _id) : id(_id) {};
         int id;
+
+        Storehouse(int _id) : id(_id) {type = storehouse;};
         virtual void receiveProduct(Product*) override;
         virtual std::string showProductList(void) override;
+
+        virtual int getId() override {return id;};
 };
 
 class ProductSender
@@ -61,11 +71,12 @@ class Worker : public ProductReceiver, public ProductSender
         int id;
 
         Worker(int _id, int _duration, Storage* _storage) : 
-        id(_id), ProductSender(_duration), storage(_storage) {};
+        id(_id), ProductSender(_duration), storage(_storage) {type = worker;};
 
         //receiver
         virtual void receiveProduct(Product*) override;
         virtual std::string showProductList(void) override;
+        virtual int getId() override {return id;};
 
         //sender
         virtual void nextRound(int) override;
@@ -78,9 +89,10 @@ class LoadingRamp : public ProductSender
 {
     public:
         int id;
+        nodeType type;
 
         LoadingRamp(int _id, int _duration) : 
-        id(_id), ProductSender(_duration) {};
+        id(_id), ProductSender(_duration) {type = loadingRamp;};
         virtual void nextRound(int) override;
 
 };

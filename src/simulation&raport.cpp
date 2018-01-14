@@ -6,6 +6,131 @@
 
 using namespace std;
 
+void Simulation::addLoadingRamp(LoadingRamp* toAdd)
+{
+    loadingRamps.push_back(toAdd);
+}
+
+void Simulation::addStorehouse(Storehouse* toAdd)
+{
+    storehouses.push_back(toAdd);
+}
+
+void Simulation::addWorker(Worker* toAdd)
+{
+    workers.push_back(toAdd);
+}
+
+std::string Raport::createStructRaport(const Simulation* _simulation)
+{
+    //ofstream plik;
+    //plik.open("struct-exit.txt",ios::out);
+    stringstream ss;
+
+    ss << "== LOADING RAMPS ==" << "\n\n";
+    for (auto i : _simulation->loadingRamps)
+    {
+        ss << "LOADING RAMP #" << i->id << std::endl;
+        ss << "Delivery interval: " << i->getDuration() << std::endl;
+        ss << "Receivers: \n";
+        ss << i->showConnectionsList();
+        ss << "\n";
+    }
+
+    ss << "== WORKERS ==" << "\n\n";
+    /*for (i : workers)
+    {
+        ss << i.getStructRaport() << '\n'
+    }*/
+
+    ss << "== STOREHOUSES ==" << "\n\n";
+    /*for (i : storehouses)
+    {
+        ss << i.getStructRaport() << '\n'
+    }*/
+    //plik<<ss;
+    //plik.close();
+
+    return ss.str();
+}
+
+/*
+void Simulation::getSimRaport
+{
+    ofstream plik;
+    plik.open("sim-exit.txt",ios::out);
+
+    ss<<'\n\n'<<"== WORKERS ==";
+    for (i:workers)
+    {
+        ss<<i.getSimRaport()<<'\n'
+    }
+     ss<<'\n\n'<<"== STOREHOUSES ==";
+    for (i:storehouses)
+    {
+        ss<<i.getSimRaport()<<'\n'
+    }
+
+plik<<ss;
+plik.close();
+}
+
+
+ string Worker::getSimRaport()
+ {
+     stringstream ss;
+     ss<<"WORKER#"<<id<<'\n';
+
+     if (queue.type()=="FIFO") //Jaki jest typ magazynu
+
+     {
+
+     }
+     else
+        if (queue.type()=="LIFO")
+     {
+
+     }
+
+
+    return ss.str();
+ }
+*/
+
+/*
+ string Storehouse::getSimRaport
+ {
+     stringstream ss;
+     ss<<"STOREHOUSE#"<<id<<'\n';
+
+     return ss.str();
+ }
+
+string Storehouse::getStructRaport
+{
+
+}
+
+string Worker::getStructRaport
+{
+
+}
+
+string loadingRamp::getStructRaport
+{
+
+}
+
+
+string Link::getStruct Raport
+{
+
+}*/
+
+
+
+
+
 /*BĘDZIEMY POWOLI DOŁĄCZAĆ RÓŻNE FUNKCJONALNOŚCI, 
   ALE NAJPIERW RAPORTOWANIE PONIEWAŻ BĘDZIE POTRZEBNE DO TESTÓW
 
