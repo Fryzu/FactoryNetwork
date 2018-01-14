@@ -153,3 +153,21 @@ TEST(LoadingRamp, nextRound)
     testLoadingRamp.nextRound(2);
     EXPECT_EQ(testStorehouse->showProductList(), "1,2,");
 }
+
+TEST(Worker, nextRound)
+{
+    Storehouse* testStorehouse = new Storehouse(0);
+
+    StorageStack* testStorage = new StorageStack();
+    Worker testWorker(0, 2, testStorage);
+    testWorker.addLink(new Link(1, testStorehouse));
+
+    testStorage->push(new Product(16));
+
+    //Iterujemy po turach
+    EXPECT_EQ(testStorehouse->showProductList(), ""); //pusty
+    testWorker.nextRound(0);
+    EXPECT_EQ(testStorehouse->showProductList(), "16,");
+    testWorker.nextRound(2);
+    EXPECT_EQ(testStorehouse->showProductList(), "16,");
+}
